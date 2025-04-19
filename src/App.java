@@ -6,33 +6,50 @@ public class App {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter Number of Students: ");
         int i = scanner.nextInt();
-        int count = 0;
+        scanner.nextLine();
+        List<Students> studentsList = new ArrayList<>();
 
-        while(count < i){
-            System.out.println("Whats your Name: ");
-            String Student = scanner.nextLine();
-            System.out.println("Whats your ID: ");
-            int ID = scanner.nextInt();
-            System.out.println("Whats your Faculty: ");
-            String Faculty = scanner.nextLine();
-            System.out.println("Enter your courses: ");
-            String Course = scanner.nextLine();
+        //Student Info Inputs
+        for (int count = 1; count < i; count++) {
+            System.out.println("Enter details for Student " + ":");
 
-        }        
-        
-        Students s1 = new Students("omar " , "CS") ;
-        Students s2 = new Students("7oda", "CS") ; 
-        Course c1  = new Course("MATH" , 3 ) ; 
-        Course c2 = new Course("JAVA", 3);
-        s1.AddCourse(c2);
-        s1.AddCourse(c1);
-        s1.AssignGradeToCourse("MATH", 3.7);
-        s1.AssignGradeToCourse("JAVA", 3.7);    
-        System.out.println(s1.toString()) ; 
-        System.out.println(s2.toString());
-        ReportCard r1 = new ReportCard(s1);
+            System.out.print("What's your Name: ");
+            String name = scanner.nextLine();
 
-        r1.generateReportCard();
+            System.out.print("What's your Faculty: ");
+            String faculty = scanner.nextLine();
+
+            Students student = new Students(name, faculty);
+
+            System.out.print("How many courses are you taking? ");
+            int numberOfCourses = scanner.nextInt();
+            scanner.nextLine(); 
+            //Courses Info Inputs
+            for (int j = 0; j < numberOfCourses; j++) {
+                System.out.println("Enter details for Course " + (j + 1) + ":");
+
+                System.out.print("Course Name: ");
+                String courseName = scanner.nextLine();
+
+                System.out.print("Credit Hours: ");
+                int creditHours = scanner.nextInt();
+
+                System.out.print("Grade: ");
+                double grade = scanner.nextDouble();
+                scanner.nextLine(); 
+
+                Course course = new Course(courseName, creditHours);
+                course.Set_Grades(grade);
+                student.AddCourse(course);
+            }
+
+            studentsList.add(student);
+        }    
+        // Generate ReportCard
+        for (Students student : studentsList) {
+            ReportCard reportCard = new ReportCard(student);
+            reportCard.generateReportCard();
+        }
 
 
         scanner.close();
