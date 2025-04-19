@@ -13,7 +13,7 @@ public class Students {
     Students(String Name , String Faculty){
 
         this.Name = Name ;
-        this.ID = IDCounter++ ;
+        this.ID = ++IDCounter ;
         this.Faculty = Faculty ; 
 
     }
@@ -64,24 +64,48 @@ public class Students {
         System.out.println("error while Adding Course");
     }
 
+    public void AssignGradeToCourse(String CourseName, double Grade) {
+        for (Course course : Courses) {
+            if (course.Get_CourseName().equalsIgnoreCase(CourseName)) {
+                course.Set_Grades(Grade);
+                System.out.println("Grade assigned to course: " + CourseName);
+                return;
+            }
+        }
+        System.out.println("Course not found.");
+    }
+
     public double Calculate_GPA(){
 
         int Credit_Hours = 0 ;
-        int Quality_Points = 0 ; 
+        double Quality_Points = 0 ; 
         for (int i = 0 ; i < Courses.size() ; i++){
-            // Credit_Hours += Courses.get(i).Get_Credits() ;
-            // Quality_Points = Courses.get(i).Get_Quailty_points() ; hanzwdha fel Courses Credit Hour * grade 
+            Credit_Hours += Courses.get(i).Get_Credits() ;
+            Quality_Points += Courses.get(i).Get_Quailty_points() ; 
         }
-        try{
-            double gpa = Credit_Hours / Quality_Points ;
-            this.GPA = gpa ;
+        if(Quality_Points != 0 ){
+            double gpa =   Quality_Points / Credit_Hours ;
+            gpa = Math.round(gpa * 100.0) / 100.0; 
+            GPA = gpa ;
             return gpa ;
-        }
-        catch( ArithmeticException e){
-            System.out.println(e);
-        }
-        return 0.0 ; 
+            }
+        return 0 ; 
+    }
 
+    public String toString(){
+
+        String tt = "" ; 
+
+        for( Course course  : Courses){
+
+            tt += course.Get_CourseName() + " : " + course.Get_Grade() + "\n" ;
+        }
+
+        return "Student Name: " + Name +"\n" + 
+                "ID: " + ID + "\n" +
+                "Faculty: " + Faculty + "\n" +
+                "GPA: " + Calculate_GPA() + "\n" + 
+                tt ;
     }
 
 }
