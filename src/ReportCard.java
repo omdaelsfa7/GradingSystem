@@ -1,22 +1,27 @@
-import java.util.jar.Attributes.Name;
 
-public class ReportCard  {
-
-    String Students;
+public class ReportCard {
+    //attributs
+    Students student;
     
-
-    ReportCard(String Students){
+    //constructor
+    ReportCard(Students student){
         
-        this.Students = Students;
-
-        
-
+        this.student = student;
     }
-
+    //methods
     public void generateReportCard(){
 
-        Students.Get_Name
-        Students.Get_Courses
+        student.Get_Name();
+        student.Get_Courses();
+        student.Get_Faculty();
+        student.Get_ID();
+        student.Calculate_GPA();
+        //Display
+        System.out.println("Student Name:"+ student.Get_Name());
+        System.out.println("Student ID:"+ student.Get_ID());
+        System.out.println("Faculty:"+ student.Get_Faculty());
+        System.out.println("Courses:"+ student.Get_Courses());
+        System.out.println("GPA:"+ student.Get_GPA());
     }	
 
 }
