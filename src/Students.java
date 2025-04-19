@@ -64,13 +64,24 @@ public class Students {
         System.out.println("error while Adding Course");
     }
 
+    public void AssignGradeToCourse(String CourseName, double Grade) {
+        for (Course course : Courses) {
+            if (course.Get_CourseName().equalsIgnoreCase(CourseName)) {
+                course.Set_Grades(Grade);
+                System.out.println("Grade assigned to course: " + CourseName);
+                return;
+            }
+        }
+        System.out.println("Course not found.");
+    }
+
     public double Calculate_GPA(){
 
         int Credit_Hours = 0 ;
-        int Quality_Points = 0 ; 
+        double Quality_Points = 0 ; 
         for (int i = 0 ; i < Courses.size() ; i++){
-            // Credit_Hours += Courses.get(i).Get_Credits() ;
-            // Quality_Points = Courses.get(i).Get_Quailty_points() ; hanzwdha fel Courses Credit Hour * grade 
+            Credit_Hours += Courses.get(i).Get_Credits() ;
+            Quality_Points = Courses.get(i).Get_Quailty_points() ; 
         }
         try{
             double gpa = Credit_Hours / Quality_Points ;
@@ -81,7 +92,17 @@ public class Students {
             System.out.println(e);
         }
         return 0.0 ; 
+    }
 
+    public String ToString(){
+        String tt = "" ; 
+        for( Course course  : Courses){
+            tt += course.Get_CourseName() + course.Get_Grade() + "\n" ;
+        }
+        return "Student Name:" + Name +"\n" + 
+                "ID: " + ID + "\n" +
+                "Faculty: " + Faculty + "\n" +
+                "GPA: " + GPA + "\n" + tt ;
     }
 
 }
