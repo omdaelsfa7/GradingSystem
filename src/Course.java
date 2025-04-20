@@ -1,10 +1,10 @@
 class Course{
 
-    public String CourseName;
-    public int CreditHours;
-    public Double Grade = 0.0;
+    private String CourseName;
+    private int CreditHours;
+    private Double Grade = 0.0; // to be modified
     
-    Course(String CourseName, int CreditHours){
+    public Course(String CourseName, int CreditHours){
         this.CourseName = CourseName;
         this.CreditHours = CreditHours;
     }
@@ -21,8 +21,20 @@ class Course{
         this.Grade = Grade;
     }
     
-    public Double Get_Grades(){
+    public Double Get_Grade(){
         return Grade;
+    }
+
+    public int Get_Credits(){
+        return CreditHours ;    
+    }
+
+    public double Get_Quailty_points(){
+        return CreditHours * Grade ; 
+    }
+    
+    public String Get_CourseName(){
+        return CourseName ; 
     }
     
 }
