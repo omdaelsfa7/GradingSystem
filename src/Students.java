@@ -101,11 +101,7 @@ public class Students {
             tt += course.Get_CourseName() + " : " + course.Get_Grade() + "\n" ;
         }
 
-        return "Student Name: " + Name +"\n" + 
-                "ID: " + ID + "\n" +
-                "Faculty: " + Faculty + "\n" +
-                "GPA: " + Calculate_GPA() + "\n" + 
-                tt ;
+        return  tt ;
     }
 
 }

@@ -603,7 +603,7 @@ public class GUI {
                 idReport.setText("ID: " + ID2);
                 facultyReport.setText("Faculty: " + selectedStudent.Get_Faculty());
                 gpaReport.setText("GPA: " + selectedStudent.Get_GPA());
-                courseReport.setText("Courses: " + selectedStudent.Get_Courses());
+                courseReport.setText("Courses: " + selectedStudent.toString());
             }
             
 
