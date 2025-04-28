@@ -10,11 +10,22 @@ class Course{
     }
     
     public void Set_Name(String CourseName){
-        this.CourseName = CourseName;
+        try{
+            this.CourseName = CourseName;    
+        }
+        catch(Exception e){
+            System.out.println("Use Valid Name ");
+        }
+        
     }
     
     public void Set_Credits(int CreditHours){
-        this.CreditHours = CreditHours;
+        try{
+            this.CreditHours = CreditHours; 
+        }
+       catch(Exception e){
+        System.out.println("Use Invalid Number");
+       }
     }
     
     public void Set_Grades(Double Grade){

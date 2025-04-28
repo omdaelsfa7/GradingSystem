@@ -481,14 +481,34 @@ public class GUI {
         submit1.addActionListener(f -> {
             String studentName = t1.getText();
             String facultyName = t2.getText();
-            Students student = new Students(studentName, facultyName);
+            if (studentName.isEmpty() || facultyName.isEmpty()) {
+                JOptionPane.showMessageDialog(frame, "Please fill in all fields.", "Input Error", JOptionPane.ERROR_MESSAGE);
+                return; 
+            }
+            Students student = new Students() ;
+            if(!student.Set_Name(studentName)){
+                JOptionPane.showMessageDialog(frame, "Invalid student name.", "Input Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            if(!student.Set_Faculty(facultyName)){
+                JOptionPane.showMessageDialog(frame, "Invalid Faculty name.", "Input Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            for (Students s : studentsList) {
+                if (s.Get_Name().equals(studentName)) {
+                    JOptionPane.showMessageDialog(frame, "Student already exists.", "Input Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            }
+        
             int id = student.Get_ID();
             studentsList.add(student);
             System.out.println("Student Name: " + studentName);
             System.out.println("Faculty: " + facultyName);
             System.out.println("Your ID is:"+id);
-            JOptionPane.showMessageDialog(frame, "Student added!\nYour ID is: " + id);
-        } );
+            JOptionPane.showMessageDialog(frame, "Student added!\nYour ID is: " + id);      
+        } 
+        );
             
 
 
@@ -496,11 +516,28 @@ public class GUI {
 
         submit2.addActionListener(f -> {String courseName = t3.getText();
             String creditHours = t4.getText();
-            int ch = Integer.parseInt(creditHours);
-            Course course = new Course(courseName, ch);
+            if(courseName.isEmpty() || creditHours.isEmpty() ) {
+                JOptionPane.showMessageDialog(frame, "Please fill in all fields.", "Input Error", JOptionPane.ERROR_MESSAGE);
+                return; 
+            }
+            try {
+                Integer.parseInt(creditHours);
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(frame, "Invalid credit hours.", "Input Error", JOptionPane.ERROR_MESSAGE);
+                return ;
+            }
+            for (Course c : courseList) {
+                if ((c.Get_CourseName().equals(courseName) && c.Get_Credits() == Integer.parseInt(creditHours))) {
+                JOptionPane.showMessageDialog(frame, "Course already exists.", "Input Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            }
+            int CreditHours = Integer.parseInt(creditHours);
+            Course course = new Course(courseName, CreditHours);
             courseList.add(course);
             System.out.println("Course Name: " + courseName);
             System.out.println("Credit Hours: " + creditHours);
+            JOptionPane.showMessageDialog(frame, "Course added!\nCourse Name: " + courseName + "\nCredit Hours: " + creditHours); 
         } );
 
 

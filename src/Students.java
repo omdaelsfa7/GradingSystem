@@ -5,27 +5,37 @@ public class Students {
     private String Name = "" ;
     private String Faculty = "" ; 
     private int ID ;
-    private static int IDCounter = 0 ;
+    private static int IDCounter = 231000 ;
     private ArrayList<Course> Courses = new ArrayList<Course>() ; 
     private double GPA = 0 ; 
 
 // Parametrized Constructor 
-    Students(String Name , String Faculty){
-
-        this.Name = Name ;
+    Students(){
         this.ID = ++IDCounter ;
-        this.Faculty = Faculty ; 
-
     }
-
 //Setters
-    public void Set_Name(String Name){
+    public boolean Set_Name(String Name){
         this.Name = Name ;
+        return true ;
     }
+        
 
-    public void Set_Faculty(String Faculty){
+    public boolean Set_Faculty(String Faculty){
+        if(Faculty == null || Faculty.isEmpty()){
+            System.out.println("Faculty Name is Empty or Null") ;
+            return false ; 
+        }
+        for(char c : Faculty.toCharArray()){
+            if(!Character.isLetter(c) && c != ' '){
+                System.out.println("Faculty Name is Invalid") ;
+                return false ; 
+            }
+        }
         this.Faculty = Faculty ;
         Courses.clear();
+    
+        
+        return true ;
     }
 
 //Getters
