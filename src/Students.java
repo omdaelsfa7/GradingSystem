@@ -50,7 +50,7 @@ public class Students {
     public String Get_Courses(){
         String String_Courses = null ;
         for (int i = 0 ; i < Courses.size() ; i++ ){
-            String_Courses = Courses.get(i) + "\n" ;
+            String_Courses += Courses.get(i).Get_CourseName() + "\n" ;
         }
         return String_Courses ; 
     }
@@ -65,7 +65,7 @@ public class Students {
 
 //methods
 
-    public void AddCourse(Course course){
+    public void     AddCourse(Course course){
 
         if(Courses.add(course)){ 
             System.out.println("Course Added Succefully");
