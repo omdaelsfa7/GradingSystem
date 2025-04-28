@@ -68,7 +68,6 @@ public class GUI {
 
     private ArrayList<Students> studentsList;
     private ArrayList<Course> courseList;
-    Students selectedStudent = null;
 
     public GUI(ArrayList<Students> studentsList, ArrayList<Course> courseList){
 
@@ -500,7 +499,6 @@ public class GUI {
                     return;
                 }
             }
-        
             int id = student.Get_ID();
             studentsList.add(student);
             System.out.println("Student Name: " + studentName);
@@ -511,9 +509,6 @@ public class GUI {
         );
             
 
-
-
-
         submit2.addActionListener(f -> {String courseName = t3.getText();
             String creditHours = t4.getText();
             if(courseName.isEmpty() || creditHours.isEmpty() ) {
@@ -522,10 +517,14 @@ public class GUI {
             }
             try {
                 Integer.parseInt(creditHours);
+                if (Integer.parseInt(creditHours) <= 0) {
+                    JOptionPane.showMessageDialog(frame, "Credit hours must be a positive number.", "Input Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(frame, "Invalid credit hours.", "Input Error", JOptionPane.ERROR_MESSAGE);
                 return ;
-            }
+            } 
             for (Course c : courseList) {
                 if ((c.Get_CourseName().equals(courseName) && c.Get_Credits() == Integer.parseInt(creditHours))) {
                 JOptionPane.showMessageDialog(frame, "Course already exists.", "Input Error", JOptionPane.ERROR_MESSAGE);
@@ -536,8 +535,8 @@ public class GUI {
             Course course = new Course(courseName, CreditHours);
             courseList.add(course);
             System.out.println("Course Name: " + courseName);
-            System.out.println("Credit Hours: " + creditHours);
-            JOptionPane.showMessageDialog(frame, "Course added!\nCourse Name: " + courseName + "\nCredit Hours: " + creditHours); 
+            System.out.println("Credit Hours: " + CreditHours);
+            JOptionPane.showMessageDialog(frame, "Course Add Succefully\n " + "Course Name: " + courseName + "\n" + "CreditHours" + creditHours); 
         } );
 
 
@@ -548,38 +547,62 @@ public class GUI {
 
         submit3.addActionListener(f -> {String courseGrade = t5.getText();
             String gradeNo = t6.getText();
-            String credithours = t7.getText();
-            String idNo3 = id3.getText();
-
-            int ID3 = Integer.parseInt(idNo3);
-            int ch1 = Integer.parseInt(credithours);
+            String idNo = id3.getText();
+            String courseNamw = t7.getText();
+            if (courseGrade.isEmpty() || gradeNo.isEmpty() || idNo.isEmpty() || courseNamw.isEmpty()) {
+                JOptionPane.showMessageDialog(frame, "Please fill in all fields.", "Input Error", JOptionPane.ERROR_MESSAGE);
+                return; 
+            }
+            try{
+                Integer.parseInt(idNo);
+            }
+            catch (NumberFormatException e){
+                JOptionPane.showMessageDialog(frame, "Invalid ID.", "Input Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
+            try{
+                Double.parseDouble(gradeNo);
+            }catch (NumberFormatException e){
+                JOptionPane.showMessageDialog(frame, "Invalid Grade.", "Input Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            int ID = Integer.parseInt(idNo);
             double g = Double.parseDouble(gradeNo);
-
-            for (Students s : studentsList) {
-                if (s.Get_ID() == ID3) {
-                    selectedStudent = s;
+            Students selectedStudent = null;
+            Course c = null;
+            for (Course course : courseList) {
+                if (course.Get_CourseName().equals(courseGrade)) {
+                    c = course;
                     break;
                 }
             }
-
-            if (selectedStudent == null){
-                System.out.println("Student not found!");
+            for (Students s : studentsList) {
+                if (!(s.Get_ID() == ID)) {
+                    continue;  
+                }
+                else{
+                    selectedStudent = s;
+                    break;  
+                }
+            }   
+            if (selectedStudent == null) {
+                JOptionPane.showMessageDialog(frame, "Student not found!", "Input Error", JOptionPane.ERROR_MESSAGE) ;
+            } 
+            if (c == null) {
+                JOptionPane.showMessageDialog(frame, "Course not found!", "Input Error", JOptionPane.ERROR_MESSAGE) ;
             }
-            else{
-            
-                Course c = new Course(courseGrade, ch1);
-                c.Set_Grades(g);
                 selectedStudent.AddCourse(c);
                 selectedStudent.AssignGradeToCourse(courseGrade, g);
 
                 System.out.println("Courses and grades assigned successfully.");
 
-            }
 
-            System.out.println("ID Number: " + idNo3);
+            System.out.println("ID Number: " + idNo);
             System.out.println("Course Assigned Grade: " + courseGrade);
-            System.out.println("Credit Hours: " + credithours);
-            System.out.println("Grade: " + gradeNo);} );
+            System.out.println("Grade: " + gradeNo);
+        }
+         );
 
 
 
@@ -588,28 +611,38 @@ public class GUI {
 
 
 
-        submit4.addActionListener(f -> {String idNo1 = id1.getText();
+        submit4.addActionListener(f -> {String idNo = id1.getText();
             homePanel.setVisible(false);
             gpaPanel.setVisible(false);
             gpaPanel2.setVisible(true);
-        
+            if (idNo.isEmpty()) {
+                JOptionPane.showMessageDialog(frame, "Please fill in all fields.", "Input Error", JOptionPane.ERROR_MESSAGE);
+                return; 
+            }
+            try{
+                Integer.parseInt(idNo);
+            }
+            catch (NumberFormatException e){
+                JOptionPane.showMessageDialog(frame, "Invalid ID.", "Input Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
+            Students selectedStudent = null;
             for (Students s : studentsList) {
-                int ID = Integer.parseInt(idNo1);
+                int ID = Integer.parseInt(idNo);
                 if (s.Get_ID() == ID) {
-                    selectedStudent = s;
-                    selectedStudent.toString();
+                    selectedStudent = s;;
                     break;
                 }
             }
 
             if (selectedStudent == null){
-                System.out.println("Student not found!");
+                JOptionPane.showMessageDialog(frame, "Student not found!", "Input Error", JOptionPane.ERROR_MESSAGE) ;
+                return;
             }
             else{
                 String calculateGpa = String.format("%.2f", selectedStudent.Calculate_GPA());
                 gpaFinal.setText(calculateGpa);
-                
-                System.out.println("Your GPA is:"+ selectedStudent.Calculate_GPA());
             }
         } );
 
@@ -618,13 +651,23 @@ public class GUI {
 
 
 
-        submit5.addActionListener(f -> {String idNo2 = id2.getText();
+        submit5.addActionListener(f -> {String idNo = id2.getText();
             homePanel.setVisible(false);
             reportPanel.setVisible(false);
             reportPanel2.setVisible(true);
-
-            int ID2 = Integer.parseInt(idNo2);
-
+            if (idNo.isEmpty()) {
+                JOptionPane.showMessageDialog(frame, "Please fill in all fields.", "Input Error", JOptionPane.ERROR_MESSAGE);
+                return; 
+            }
+            try{
+                Integer.parseInt(idNo);
+            }
+            catch (NumberFormatException e){
+                JOptionPane.showMessageDialog(frame, "Invalid ID.", "Input Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            int ID2 = Integer.parseInt(idNo);
+            Students selectedStudent = null;
             for (Students s : studentsList) {
                 if (s.Get_ID() == ID2) {
                     selectedStudent = s;
@@ -633,7 +676,8 @@ public class GUI {
             }
 
             if (selectedStudent == null){
-                System.out.println("Student not found!");
+               JOptionPane.showMessageDialog(frame , "Student not found!" , "Input Error", JOptionPane.ERROR_MESSAGE) ;
+                return;
             }
             else{
                 nameReport.setText("Name: " + selectedStudent.Get_Name());
