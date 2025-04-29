@@ -8,8 +8,5 @@ public class App {
         ArrayList<Course> courseList = new ArrayList<>();
 
         GUI gui = new GUI(studentsList, courseList);
-           
-
     }  
-
 }

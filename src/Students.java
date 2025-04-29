@@ -14,9 +14,8 @@ public class Students {
         this.ID = ++IDCounter ;
     }
 //Setters
-    public boolean Set_Name(String Name){
+    public void Set_Name(String Name){
         this.Name = Name ;
-        return true ;
     }
         
 
@@ -65,7 +64,7 @@ public class Students {
 
 //methods
 
-    public void     AddCourse(Course course){
+    public void AddCourse(Course course){
 
         if(Courses.add(course)){ 
             System.out.println("Course Added Succefully");
