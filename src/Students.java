@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
+
 public class Students {
 
 //students attribute :>
@@ -10,32 +12,22 @@ public class Students {
     private double GPA = 0 ; 
 
 // Parametrized Constructor 
-    Students(){
-        this.ID = ++IDCounter ;
-    }
-//Setters
-    public boolean Set_Name(String Name){
-        this.Name = Name ;
-        return true ;
-    }
-        
+    Students(String Name , String Faculty){
 
-    public boolean Set_Faculty(String Faculty){
-        if(Faculty == null || Faculty.isEmpty()){
-            System.out.println("Faculty Name is Empty or Null") ;
-            return false ; 
-        }
-        for(char c : Faculty.toCharArray()){
-            if(!Character.isLetter(c) && c != ' '){
-                System.out.println("Faculty Name is Invalid") ;
-                return false ; 
-            }
-        }
+        this.Name = Name ;
+        this.ID = ++IDCounter ;
+        this.Faculty = Faculty ; 
+
+    }
+
+//Setters
+    public void Set_Name(String Name){
+        this.Name = Name ;
+    }
+
+    public void Set_Faculty(String Faculty){
         this.Faculty = Faculty ;
         Courses.clear();
-    
-        
-        return true ;
     }
 
 //Getters
@@ -50,7 +42,7 @@ public class Students {
     public String Get_Courses(){
         String String_Courses = null ;
         for (int i = 0 ; i < Courses.size() ; i++ ){
-            String_Courses += Courses.get(i).Get_CourseName() + "\n" ;
+            String_Courses = Courses.get(i) + "\n" ;
         }
         return String_Courses ; 
     }
@@ -65,26 +57,34 @@ public class Students {
 
 //methods
 
-    public void     AddCourse(Course course){
+    public void AddCourse(Course course){
 
         if(Courses.add(course)){ 
+            JOptionPane.showMessageDialog(null, "Course Added Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
             System.out.println("Course Added Succefully");
             return ;
         }
         System.out.println("error while Adding Course");
     }
 
+
+
+
     public void AssignGradeToCourse(String CourseName, double Grade) {
         for (Course course : Courses) {
             if (course.Get_CourseName().equalsIgnoreCase(CourseName)) {
                 course.Set_Grades(Grade);
                 System.out.println("Grade assigned to course: " + CourseName);
+                JOptionPane.showMessageDialog(null, "Course Grade Assigned Successfully\n " + "ID Number: " + Get_ID() + "\nCourse Assigned Grade: " + CourseName + "\nGrade: " + Grade, "Success", JOptionPane.INFORMATION_MESSAGE);
                 return;
             }
         }
         System.out.println("Course not found.");
     }
 
+
+
+    
     public double Calculate_GPA(){
 
         int Credit_Hours = 0 ;
@@ -108,10 +108,11 @@ public class Students {
 
         for( Course course  : Courses){
 
-            tt += course.Get_CourseName() + " : " + course.Get_Grade() + "\n" ;
+            tt += "|" + "  " + course.Get_CourseName() + " : " + course.Get_Grade() + "  " + "|" + "  " ;
         }
 
         return  tt ;
     }
+
 
 }

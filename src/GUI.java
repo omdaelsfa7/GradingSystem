@@ -1,6 +1,12 @@
-import java.awt.*;
+import java.awt.Font;
 import java.util.ArrayList;
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 
 // fe 4wyt 7gat m7tagen nzbtha
@@ -65,9 +71,78 @@ public class GUI {
     private JTextField id2;
     private JTextField id3;
 
+    private String[] Faculties = {"Computer Science", "Engineering", "Business", "Arts", "Science"};
+    private JComboBox<String> FacultyDropList = new JComboBox<>(Faculties);
+
+    private String[] Grades = {"A+","A","A-","B+","B","B-","C+","C","C-","D+","D","D-"};
+    private JComboBox<String> GradeDropList = new JComboBox<>(Grades);
+    
+    private String[] CreditHours = {"1", "2", "3", "4", "5"};
+    private JComboBox<String> CreditsDropList = new JComboBox<>(CreditHours); 
+    private JComboBox<String> CreditsDropList2 = new JComboBox<>(CreditHours); 
+
+    ArrayList<String> CourseArr = new ArrayList<>();
+    private JComboBox<String> CourseDropList = new JComboBox<>(CourseArr.toArray(new String[0]));
+
+
+    ArrayList<Integer> Ids = new ArrayList<>();
+    private JComboBox<String> IdDropList = new JComboBox<>(Ids.toArray(new String[0]));
+    private JComboBox<String> IdDropList2 = new JComboBox<>(Ids.toArray(new String[0]));
+    private JComboBox<String> IdDropList3 = new JComboBox<>(Ids.toArray(new String[0]));
+
+
 
     private ArrayList<Students> studentsList;
     private ArrayList<Course> courseList;
+    Students selectedStudent = null;
+    Course selectedCourse = null;
+
+
+    private double Grade(String grade) {
+        switch (grade) {
+            case "A+" : {
+                return 4.0;
+            }
+            case "A": {
+                return 4.0;
+            }
+            case "A-" : {
+                return 3.7;
+            }
+            case "B+" : {
+                return 3.3;
+            }
+            case "B" : {
+                return 3.0;
+            }
+            case "B-" : {
+                return 2.7;
+            }
+            case "C+" : {
+                return 2.3;
+            }
+            case "C" : {
+                return 2.0;
+            }
+            case "C-" : {
+                return 1.7;
+            }
+            case "D+" : {
+                return 1.3;
+            }
+            case "D" : {
+                return 1.0 ;
+            }
+            case "D-" : {
+                return 0.7;
+            }
+            default : {
+                return 0.0;
+            } 
+        }
+    }
+
+
 
     public GUI(ArrayList<Students> studentsList, ArrayList<Course> courseList){
 
@@ -100,7 +175,7 @@ public class GUI {
 
         JButton b1 = new JButton("Add Student");
         JButton b2 = new JButton("Add Course");
-        JButton b3 = new JButton("Assign Grades");
+        JButton b3 = new JButton("Assign Grades & Courses");
         JButton b4 = new JButton("Calculate GPA");
         JButton b5 = new JButton("Generate Report Card");
         JButton b6 = new JButton("Exit");
@@ -121,11 +196,11 @@ public class GUI {
         JButton submit5 = new JButton("Submit");
 
 
+
         // setting text Fields and labels for student panel 
 
         JTextField t1 = new JTextField();
         JLabel l1 = new JLabel("Enter Your Name");
-        JTextField t2 = new JTextField();
         JLabel l2 = new JLabel("Enter Your Faculty");
 
 
@@ -139,30 +214,22 @@ public class GUI {
 
         // setting text Fields and labels for assigning grades panel 
 
-        JTextField t5 = new JTextField();
         JLabel l5 = new JLabel("Enter The Course Name");
-        JTextField t6 = new JTextField();
         JLabel l6 = new JLabel("Enter The Grade");
-
-        JTextField id3 = new JTextField();
         JLabel l9 = new JLabel("Enter Your ID");
-        JTextField t7 = new JTextField();
         JLabel l10 = new JLabel("Enter The Credit Hours");
 
 
 
         // setting text Fields and labels for calculate gpa panel 
 
-        JTextField id1 = new JTextField();
         JLabel l7 = new JLabel("Enter Your ID");
 
 
 
         // setting text Fields and labels for generate report card panel 
 
-        JTextField id2 = new JTextField();
         JLabel l8 = new JLabel("Enter Your ID");
-
 
 
 
@@ -183,12 +250,12 @@ public class GUI {
 
         // setting bounds for buttons
 
-        b1.setBounds(75, 150, 150, 40);
-        b2.setBounds(300, 150, 150, 40);
-        b3.setBounds(525, 150, 150, 40);
-        b4.setBounds(85, 300, 250, 40);
-        b5.setBounds(425, 300, 250, 40);
-        b6.setBounds(300, 420, 150, 40);
+        b1.setBounds(50, 160, 200, 50); 
+        b2.setBounds(275, 160, 200, 50);
+        b3.setBounds(500, 160, 200, 50);
+        b4.setBounds(150, 280, 200, 50); 
+        b5.setBounds(400, 280, 200, 50);
+        b6.setBounds(275, 410, 200, 50);
         backButton1.setBounds(300, 500, 150, 40);
         backButton2.setBounds(300, 500, 150, 40);
         backButton3.setBounds(300, 500, 150, 40);
@@ -204,6 +271,7 @@ public class GUI {
 
 
 
+
         // setting the bounds and font for the student panel
 
         l1.setBounds(50, 150, 250, 40);
@@ -211,7 +279,7 @@ public class GUI {
         t1.setBounds(250, 150, 250, 40);
         l2.setBounds(50, 250, 250, 40);
         l2.setFont(new Font("Arial", Font.BOLD, 20));
-        t2.setBounds(250, 250, 250, 40);
+        FacultyDropList.setBounds(250, 250, 250, 40);
         title2.setBounds(300, 40, 400, 50);
         title2.setFont(new Font("Arial", Font.BOLD, 28));
 
@@ -219,12 +287,13 @@ public class GUI {
 
 
         // setting the bounds and font for the course panel
+
         l3.setBounds(50, 150, 250, 40);
         l3.setFont(new Font("Arial", Font.BOLD, 20));
         t3.setBounds(350, 150, 250, 40);
         l4.setBounds(50, 250, 250, 40);
         l4.setFont(new Font("Arial", Font.BOLD, 20));
-        t4.setBounds(350, 250, 250, 40);
+        CreditsDropList.setBounds(350, 250, 250, 40);
         title3.setBounds(300, 40, 400, 50);
         title3.setFont(new Font("Arial", Font.BOLD, 28));
 
@@ -234,19 +303,19 @@ public class GUI {
 
         l5.setBounds(50, 150, 250, 40);
         l5.setFont(new Font("Arial", Font.BOLD, 20));
-        t5.setBounds(350, 150, 250, 40);
+        CourseDropList.setBounds(350, 150, 250, 40);
         l6.setBounds(50, 220, 250, 40);
         l6.setFont(new Font("Arial", Font.BOLD, 20));
-        t6.setBounds(350, 220, 250, 40);
+        GradeDropList.setBounds(350, 220, 250, 40);
         title4.setBounds(300, 40, 400, 50);
         title4.setFont(new Font("Arial", Font.BOLD, 28));
 
         l9.setBounds(50, 290, 250, 40);
         l9.setFont(new Font("Arial", Font.BOLD, 20));
-        id3.setBounds(350, 290, 250, 40);
+        IdDropList3.setBounds(350, 290, 250, 40);
         l10.setBounds(50, 360, 250, 40);
         l10.setFont(new Font("Arial", Font.BOLD, 20));
-        t7.setBounds(350, 360, 250, 40);
+        CreditsDropList2.setBounds(350, 360, 250, 40);
 
 
 
@@ -254,7 +323,7 @@ public class GUI {
 
         l7.setBounds(50, 150, 250, 40);
         l7.setFont(new Font("Arial", Font.BOLD, 20));
-        id1.setBounds(250, 150, 250, 40);
+        IdDropList2.setBounds(250, 150, 250, 40);
         title5.setBounds(275, 40, 400, 50);
         title5.setFont(new Font("Arial", Font.BOLD, 28));
 
@@ -264,7 +333,7 @@ public class GUI {
 
         l8.setBounds(50, 150, 250, 40);
         l8.setFont(new Font("Arial", Font.BOLD, 20));
-        id2.setBounds(250, 150, 250, 40);
+        IdDropList.setBounds(250, 150, 250, 40);
         title6.setBounds(250, 40, 400, 50);
         title6.setFont(new Font("Arial", Font.BOLD, 28));
 
@@ -306,7 +375,7 @@ public class GUI {
         idReport.setBounds(50, 180, 400, 50);
         facultyReport.setBounds(50, 250, 400, 50);
         gpaReport.setBounds(50, 320, 400, 50);
-        courseReport.setBounds(50, 390, 3000, 50);
+        courseReport.setBounds(50, 390, 1000000, 50);
 
         nameReport.setFont(new Font("Arial", Font.BOLD, 30));
         idReport.setFont(new Font("Arial", Font.BOLD, 30));
@@ -314,6 +383,8 @@ public class GUI {
         gpaReport.setFont(new Font("Arial", Font.BOLD, 30));
         courseReport.setFont(new Font("Arial", Font.BOLD, 30));
         
+
+
 
 
         // addding every thing to its panel
@@ -331,7 +402,7 @@ public class GUI {
         studentPanel.add(submit1);
         studentPanel.add(t1);
         studentPanel.add(l1);
-        studentPanel.add(t2);
+        studentPanel.add(FacultyDropList);
         studentPanel.add(l2);
         studentPanel.add(title2);
 
@@ -340,32 +411,32 @@ public class GUI {
         coursePanel.add(submit2);
         coursePanel.add(t3);
         coursePanel.add(l3);
-        coursePanel.add(t4);
+        coursePanel.add(CreditsDropList);
         coursePanel.add(l4);
         coursePanel.add(title3);
 
 
         gradePanel.add(backButton3);
         gradePanel.add(submit3);
-        gradePanel.add(t5);
+        gradePanel.add(CourseDropList);
         gradePanel.add(l5);
-        gradePanel.add(t6);
+        gradePanel.add(GradeDropList);
         gradePanel.add(l6);
         gradePanel.add(title4);
         gradePanel.add(l9);
         gradePanel.add(l10);
-        gradePanel.add(id3);
-        gradePanel.add(t7);
+        gradePanel.add(IdDropList3);
+        gradePanel.add(CreditsDropList2);
 
 
         gpaPanel.add(backButton4);
-        gpaPanel.add(id1);
+        gpaPanel.add(IdDropList2);
         gpaPanel.add(l7);
         gpaPanel.add(title5);
         gpaPanel.add(submit4);
 
         reportPanel.add(backButton5);
-        reportPanel.add(id2);
+        reportPanel.add(IdDropList);
         reportPanel.add(l8);
         reportPanel.add(title6);
         reportPanel.add(submit5);
@@ -384,6 +455,8 @@ public class GUI {
         reportPanel2.add(courseReport);
         
 
+
+
         // adding every panel to the window
 
         frame.add(homePanel);
@@ -394,7 +467,6 @@ public class GUI {
         frame.add(reportPanel);
         frame.add(reportPanel2);
         frame.add(gpaPanel2);
-
         
 
         // setting bounds of the panels
@@ -407,7 +479,6 @@ public class GUI {
         reportPanel.setBounds(0, 0, 800, 600);
         reportPanel2.setBounds(0, 0, 800, 600);
         gpaPanel2.setBounds(0, 0, 800, 600);
-
         
 
         // setting panels to be invisible
@@ -419,7 +490,6 @@ public class GUI {
         reportPanel.setVisible(false);
         reportPanel2.setVisible(false);
         gpaPanel2.setVisible(false);
-        
 
        
         
@@ -443,7 +513,8 @@ public class GUI {
 
         b5.addActionListener(f -> {homePanel.setVisible(false);
             reportPanel.setVisible(true);} );
-
+        
+        
         b6.addActionListener(f -> System.exit(0));
         
 
@@ -477,66 +548,74 @@ public class GUI {
 
 
         
-        submit1.addActionListener(f -> {
-            String studentName = t1.getText();
-            String facultyName = t2.getText();
-            if (studentName.isEmpty() || facultyName.isEmpty()) {
-                JOptionPane.showMessageDialog(frame, "Please fill in all fields.", "Input Error", JOptionPane.ERROR_MESSAGE);
-                return; 
-            }
-            Students student = new Students() ;
-            if(!student.Set_Name(studentName)){
-                JOptionPane.showMessageDialog(frame, "Invalid student name.", "Input Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            if(!student.Set_Faculty(facultyName)){
-                JOptionPane.showMessageDialog(frame, "Invalid Faculty name.", "Input Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
+        submit1.addActionListener(f -> {String studentName = t1.getText();
+            String facultyName = (String) FacultyDropList.getSelectedItem();
+
+
             for (Students s : studentsList) {
                 if (s.Get_Name().equals(studentName)) {
-                    JOptionPane.showMessageDialog(frame, "Student already exists.", "Input Error", JOptionPane.ERROR_MESSAGE);
-                    return;
+                    JOptionPane.showMessageDialog(frame, "This Student has already been added", "Error", JOptionPane.ERROR_MESSAGE);
+                    return; 
                 }
             }
-            int id = student.Get_ID();
+
+            if (!studentName.matches("[a-z A-Z]+")) {
+                JOptionPane.showMessageDialog(frame, "Invalid name! Please enter a Valid Name.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            Students student = new Students(studentName, facultyName);
             studentsList.add(student);
+            JOptionPane.showMessageDialog(frame, "Student successfully added\n" + "Name : " + studentName + "\nFaculty : " + facultyName + "\nID : " + student.Get_ID(), "Success", JOptionPane.INFORMATION_MESSAGE);
             System.out.println("Student Name: " + studentName);
             System.out.println("Faculty: " + facultyName);
-            System.out.println("Your ID is:"+id);
-            JOptionPane.showMessageDialog(frame, "Student added!\nYour ID is: " + id);      
-        } 
-        );
+
+            if (!Ids.contains(student.Get_ID())) { 
+                String id = Integer.toString(student.Get_ID());
+                IdDropList.addItem(id);
+                IdDropList2.addItem(id);
+                IdDropList3.addItem(id);
+            }
+
+        });
             
 
-        submit2.addActionListener(f -> {String courseName = t3.getText();
-            String creditHours = t4.getText();
-            if(courseName.isEmpty() || creditHours.isEmpty() ) {
-                JOptionPane.showMessageDialog(frame, "Please fill in all fields.", "Input Error", JOptionPane.ERROR_MESSAGE);
-                return; 
+
+
+
+        submit2.addActionListener(f -> {
+            
+            String courseName = t3.getText();
+            String creditHours = (String) CreditsDropList.getSelectedItem();
+            
+            if (courseName.isEmpty()){
+                JOptionPane.showMessageDialog(frame, "Please enter a Course Name ", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
             }
-            try {
-                Integer.parseInt(creditHours);
-                if (Integer.parseInt(creditHours) <= 0) {
-                    JOptionPane.showMessageDialog(frame, "Credit hours must be a positive number.", "Input Error", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(frame, "Invalid credit hours.", "Input Error", JOptionPane.ERROR_MESSAGE);
-                return ;
-            } 
+            if (courseName.matches("\\d+")) {
+                JOptionPane.showMessageDialog(frame, "Course name cannot be only numbers!", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
             for (Course c : courseList) {
-                if ((c.Get_CourseName().equals(courseName) && c.Get_Credits() == Integer.parseInt(creditHours))) {
-                JOptionPane.showMessageDialog(frame, "Course already exists.", "Input Error", JOptionPane.ERROR_MESSAGE);
+                if (c.Get_CourseName().equals(courseName)){ 
+                    JOptionPane.showMessageDialog(frame, "Course name has already been Added", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
+                
             }
-            int CreditHours = Integer.parseInt(creditHours);
-            Course course = new Course(courseName, CreditHours);
+            
+            int ch = Integer.parseInt(creditHours);
+            Course course = new Course(courseName, ch);
             courseList.add(course);
-            System.out.println("Course Name: " + courseName);
-            System.out.println("Credit Hours: " + CreditHours);
-            JOptionPane.showMessageDialog(frame, "Course Add Succefully\n " + "Course Name: " + courseName + "\n" + "CreditHours" + creditHours); 
+            JOptionPane.showMessageDialog(frame, "Course Successfully Added \n Course : " + courseName + "\nCredit Hours : " + creditHours , "Success", JOptionPane.INFORMATION_MESSAGE);
+
+
+            if (!CourseArr.contains(courseName)) { 
+                CourseDropList.addItem(courseName);
+            }
+        
+        
         } );
 
 
@@ -545,104 +624,83 @@ public class GUI {
 
 
 
-        submit3.addActionListener(f -> {String courseGrade = t5.getText();
-            String gradeNo = t6.getText();
-            String idNo = id3.getText();
-            String courseNamw = t7.getText();
-            if (courseGrade.isEmpty() || gradeNo.isEmpty() || idNo.isEmpty() || courseNamw.isEmpty()) {
-                JOptionPane.showMessageDialog(frame, "Please fill in all fields.", "Input Error", JOptionPane.ERROR_MESSAGE);
-                return; 
-            }
-            try{
-                Integer.parseInt(idNo);
-            }
-            catch (NumberFormatException e){
-                JOptionPane.showMessageDialog(frame, "Invalid ID.", "Input Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
+        submit3.addActionListener(f -> {
             
-            try{
-                Double.parseDouble(gradeNo);
-            }catch (NumberFormatException e){
-                JOptionPane.showMessageDialog(frame, "Invalid Grade.", "Input Error", JOptionPane.ERROR_MESSAGE);
+            String courseGrade = (String) CourseDropList.getSelectedItem();
+            String selectedGrade = (String) GradeDropList.getSelectedItem();
+            String credithours = (String) CreditsDropList2.getSelectedItem();
+            String idNo3 = (String) IdDropList3.getSelectedItem();
+
+            if (CourseDropList.getSelectedItem() == null){
+                JOptionPane.showMessageDialog(frame, "Please Choose a Course ", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            int ID = Integer.parseInt(idNo);
-            double g = Double.parseDouble(gradeNo);
-            Students selectedStudent = null;
-            Course c = null;
-            for (Course course : courseList) {
-                if (course.Get_CourseName().equals(courseGrade)) {
-                    c = course;
-                    break;
-                }
+
+            if (IdDropList3.getSelectedItem() == null){
+                JOptionPane.showMessageDialog(frame, "Please Choose a Valid ID", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
             }
+
+
+            int ID3 = Integer.parseInt(idNo3);
+            double g = Grade(selectedGrade);
+
             for (Students s : studentsList) {
-                if (!(s.Get_ID() == ID)) {
-                    continue;  
-                }
-                else{
+                if (s.Get_ID() == ID3) {
                     selectedStudent = s;
-                    break;  
-                }
-            }   
-            if (selectedStudent == null) {
-                JOptionPane.showMessageDialog(frame, "Student not found!", "Input Error", JOptionPane.ERROR_MESSAGE) ;
-            } 
-            if (c == null) {
-                JOptionPane.showMessageDialog(frame, "Course not found!", "Input Error", JOptionPane.ERROR_MESSAGE) ;
-            }
-                selectedStudent.AddCourse(c);
-                selectedStudent.AssignGradeToCourse(courseGrade, g);
-
-                System.out.println("Courses and grades assigned successfully.");
-
-
-            System.out.println("ID Number: " + idNo);
-            System.out.println("Course Assigned Grade: " + courseGrade);
-            System.out.println("Grade: " + gradeNo);
-        }
-         );
-
-
-
-
-
-
-
-
-        submit4.addActionListener(f -> {String idNo = id1.getText();
-            homePanel.setVisible(false);
-            gpaPanel.setVisible(false);
-            gpaPanel2.setVisible(true);
-            if (idNo.isEmpty()) {
-                JOptionPane.showMessageDialog(frame, "Please fill in all fields.", "Input Error", JOptionPane.ERROR_MESSAGE);
-                return; 
-            }
-            try{
-                Integer.parseInt(idNo);
-            }
-            catch (NumberFormatException e){
-                JOptionPane.showMessageDialog(frame, "Invalid ID.", "Input Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            
-            Students selectedStudent = null;
-            for (Students s : studentsList) {
-                int ID = Integer.parseInt(idNo);
-                if (s.Get_ID() == ID) {
-                    selectedStudent = s;;
                     break;
                 }
             }
 
-            if (selectedStudent == null){
-                JOptionPane.showMessageDialog(frame, "Student not found!", "Input Error", JOptionPane.ERROR_MESSAGE) ;
-                return;
+
+            for (Course c : courseList) {
+                if (c.Get_CourseName().equals(courseGrade)) { 
+                    selectedCourse = c;
+                    break;
+                }
+            }
+            
+            Course selectedStudentCourse = new Course(selectedCourse.Get_CourseName(), selectedCourse.Get_Credits());
+            selectedStudentCourse.Set_Grades(g);
+            selectedStudent.AddCourse(selectedStudentCourse);
+            selectedStudent.AssignGradeToCourse(courseGrade, g);
+            
+
+            });
+
+
+
+
+
+
+
+
+        submit4.addActionListener(f -> {
+            
+            String idNo1 = (String) IdDropList2.getSelectedItem();
+        
+            for (Students s : studentsList) {
+                int ID = Integer.parseInt(idNo1);
+                if (s.Get_ID() == ID) {
+                    selectedStudent = s;
+                    selectedStudent.toString();
+                    break;
+                }
+            }
+
+            if (IdDropList2.getSelectedItem() == null){
+                JOptionPane.showMessageDialog(frame, "Please Choose a Valid ID", "Error", JOptionPane.ERROR_MESSAGE);
             }
             else{
+
+                homePanel.setVisible(false);
+                gpaPanel.setVisible(false);
+                gpaPanel2.setVisible(true);
+
                 String calculateGpa = String.format("%.2f", selectedStudent.Calculate_GPA());
                 gpaFinal.setText(calculateGpa);
+                
+                System.out.println("Your GPA is:"+ selectedStudent.Calculate_GPA());
             }
         } );
 
@@ -651,23 +709,18 @@ public class GUI {
 
 
 
-        submit5.addActionListener(f -> {String idNo = id2.getText();
-            homePanel.setVisible(false);
-            reportPanel.setVisible(false);
-            reportPanel2.setVisible(true);
-            if (idNo.isEmpty()) {
-                JOptionPane.showMessageDialog(frame, "Please fill in all fields.", "Input Error", JOptionPane.ERROR_MESSAGE);
-                return; 
-            }
-            try{
-                Integer.parseInt(idNo);
-            }
-            catch (NumberFormatException e){
-                JOptionPane.showMessageDialog(frame, "Invalid ID.", "Input Error", JOptionPane.ERROR_MESSAGE);
+        submit5.addActionListener(f -> { 
+            
+            String idNo2 = (String) IdDropList.getSelectedItem();
+
+            if (IdDropList.getSelectedItem() == null){
+                JOptionPane.showMessageDialog(frame, "Please Choose a Valid ID", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            int ID2 = Integer.parseInt(idNo);
-            Students selectedStudent = null;
+
+
+            int ID2 = Integer.parseInt(idNo2);
+
             for (Students s : studentsList) {
                 if (s.Get_ID() == ID2) {
                     selectedStudent = s;
@@ -675,26 +728,22 @@ public class GUI {
                 }
             }
 
-            if (selectedStudent == null){
-               JOptionPane.showMessageDialog(frame , "Student not found!" , "Input Error", JOptionPane.ERROR_MESSAGE) ;
-                return;
-            }
-            else{
-                nameReport.setText("Name: " + selectedStudent.Get_Name());
-                idReport.setText("ID: " + ID2);
-                facultyReport.setText("Faculty: " + selectedStudent.Get_Faculty());
-                gpaReport.setText("GPA: " + selectedStudent.Get_GPA());
-                courseReport.setText("Courses: " + selectedStudent.toString());
-            }
+
+            homePanel.setVisible(false);
+            reportPanel.setVisible(false);
+            reportPanel2.setVisible(true);
+
+            nameReport.setText("Name: " + selectedStudent.Get_Name());
+            idReport.setText("ID: " + ID2);
+            facultyReport.setText("Faculty: " + selectedStudent.Get_Faculty());
+            gpaReport.setText("GPA: " + selectedStudent.Get_GPA());
+            courseReport.setText("Courses: " + selectedStudent.toString());
             
 
             
         
         } );
-
-
-
-
+    
 
 
 
