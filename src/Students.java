@@ -5,27 +5,37 @@ public class Students {
     private String Name = "" ;
     private String Faculty = "" ; 
     private int ID ;
-    private static int IDCounter = 0 ;
+    private static int IDCounter = 231000 ;
     private ArrayList<Course> Courses = new ArrayList<Course>() ; 
     private double GPA = 0 ; 
 
 // Parametrized Constructor 
-    Students(String Name , String Faculty){
-
-        this.Name = Name ;
+    Students(){
         this.ID = ++IDCounter ;
-        this.Faculty = Faculty ; 
-
     }
-
 //Setters
-    public void Set_Name(String Name){
+    public boolean Set_Name(String Name){
         this.Name = Name ;
+        return true ;
     }
+        
 
-    public void Set_Faculty(String Faculty){
+    public boolean Set_Faculty(String Faculty){
+        if(Faculty == null || Faculty.isEmpty()){
+            System.out.println("Faculty Name is Empty or Null") ;
+            return false ; 
+        }
+        for(char c : Faculty.toCharArray()){
+            if(!Character.isLetter(c) && c != ' '){
+                System.out.println("Faculty Name is Invalid") ;
+                return false ; 
+            }
+        }
         this.Faculty = Faculty ;
         Courses.clear();
+    
+        
+        return true ;
     }
 
 //Getters
@@ -40,7 +50,7 @@ public class Students {
     public String Get_Courses(){
         String String_Courses = null ;
         for (int i = 0 ; i < Courses.size() ; i++ ){
-            String_Courses = Courses.get(i) + "\n" ;
+            String_Courses += Courses.get(i).Get_CourseName() + "\n" ;
         }
         return String_Courses ; 
     }
@@ -55,7 +65,7 @@ public class Students {
 
 //methods
 
-    public void AddCourse(Course course){
+    public void     AddCourse(Course course){
 
         if(Courses.add(course)){ 
             System.out.println("Course Added Succefully");
@@ -101,11 +111,7 @@ public class Students {
             tt += course.Get_CourseName() + " : " + course.Get_Grade() + "\n" ;
         }
 
-        return "Student Name: " + Name +"\n" + 
-                "ID: " + ID + "\n" +
-                "Faculty: " + Faculty + "\n" +
-                "GPA: " + Calculate_GPA() + "\n" + 
-                tt ;
+        return  tt ;
     }
 
 }
