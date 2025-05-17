@@ -59,6 +59,13 @@ public class Students {
 
     public void AddCourse(Course course){
 
+        for (Course c : Courses) {
+            if (c.Get_CourseName().equals(course.Get_CourseName())){ 
+                JOptionPane.showMessageDialog(null, "Student is already enrolled in this course!", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        }
+
         if(Courses.add(course)){ 
             JOptionPane.showMessageDialog(null, "Course Added Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
             System.out.println("Course Added Succefully");
@@ -79,6 +86,7 @@ public class Students {
                 return;
             }
         }
+        JOptionPane.showMessageDialog(null, "Student is not enrolled in this course!", "Error", JOptionPane.ERROR_MESSAGE);
         System.out.println("Course not found.");
     }
 
@@ -102,16 +110,43 @@ public class Students {
         return 0 ; 
     }
 
+    public void RemoveCourse(Course course){
+
+        for (Course c : Courses) {
+            if (c.Get_CourseName().equals(course.Get_CourseName())){ 
+                Courses.remove(c);
+                return;
+            }
+        }
+    }
+
+    public String courseString(){
+
+        String tt = "" ; 
+
+        for( Course course  : Courses){
+
+            tt += "|" + "  " + course.Get_CourseName() + " : " + course.Get_Grade() + "  " + "|" + " \n " ;
+        }
+
+        return  tt ;
+    }
+
+    @Override
     public String toString(){
 
         String tt = "" ; 
 
         for( Course course  : Courses){
 
-            tt += "|" + "  " + course.Get_CourseName() + " : " + course.Get_Grade() + "  " + "|" + "  " ;
+            tt += course.Get_CourseName() + " : " + course.Get_Grade() + "\n" ;
         }
 
-        return  tt ;
+        return "Student Name: " + Name +"\n" + 
+                "ID: " + ID + "\n" +
+                "Faculty: " + Faculty + "\n" +
+                "GPA: " + Calculate_GPA() + "\n" + 
+                tt ;
     }
 
 
